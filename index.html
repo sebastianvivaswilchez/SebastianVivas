@@ -941,7 +941,7 @@ async function generateStrategy() {
     });
 
     const data = await response.json();
-    output.innerHTML = data;
+    output.innerHTML = data.content.parts[0].text;
 
 
   } catch (error) {
@@ -976,7 +976,7 @@ async function askAssistant() {
     });
 
     const data = await response.json();
-    output.innerHTML = data;
+    output.innerHTML = data.content.parts[0].text;
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
