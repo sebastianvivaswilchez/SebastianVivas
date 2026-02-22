@@ -884,16 +884,14 @@ Transformo recursos existentes en sistemas de crecimiento sostenido.
 </footer>
 
 <script>
-const apiKey = ""; 
-const MODEL = "gemini-2.5-flash-preview-09-2025";
 
-// Lógica de Reintento para la API
+// Función base para fetch con timeout
 async function fetchWithTimeout(url, options = {}, timeout = 15000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetchWithTimeout("https://n8n-l07k.onrender.com/webhook/portfolio-ia", {
+    const response = await fetch(url, {
       ...options,
       signal: controller.signal
     });
@@ -903,35 +901,6 @@ async function fetchWithTimeout(url, options = {}, timeout = 15000) {
     clearTimeout(id);
     throw error;
   }
-}
-async function callGemini(prompt, systemPrompt = "") {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        systemInstruction: { parts: [{ text: systemPrompt }] }
-    };
-
-    let delay = 1000;
-    for (let i = 0; i < 5; i++) {
-        try {
-            const response = await fetchWithTimeout("https://n8n-l07k.onrender.com/webhook/portfolio-ia", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            if (!response.ok) {
-              throw new Error("Server error");
-            }
-
-            const data = await response.json();
-          
-            return data.candidates?.[0]?.content?.parts?.[0]?.text ||
-                   "No se pudo generar una respuesta.";
-          } catch (err) { }
-          await new Promise(r => setTimeout(r, delay));
-          delay *= 2;
-    }
-    return "No se logró conectar con el servicio de IA después de varios intentos.";
 }
 
 // Función: Generador de Estrategia
@@ -948,62 +917,38 @@ async function generateStrategy() {
   output.innerHTML = "Analizando mercado...";
 
   try {
-    const response = await fetchWithTimeout("https://n8n-l07k.onrender.com/webhook/portfolio-ia", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        type: "strategy",
-        industry: industry,
-        goal: goal
-      })
-    });
+    const response = await fetchWithTimeout(
+      "https://n8n-l07k.onrender.com/webhook/portfolio-ia",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          type: "strategy",
+          industry: industry,
+          goal: goal
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error del servidor");
+    }
 
     const data = await response.json();
-    output.innerHTML = data.content.parts[0].text;
 
+    // Asegúrate que tu webhook devuelva { response: "texto" }
+    output.innerHTML = data.response || "No se recibió respuesta válida.";
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
+    console.error(error);
+  } finally {
+    loader.style.display = "none";
   }
-
-  loader.style.display = "none";
 }
 
-// Función: Asistente Virtual
-async function askAssistant() {
-  const question = document.getElementById('chat-input').value;
-  const output = document.getElementById('chat-output');
-  const loader = document.getElementById('chat-loader');
-
-  if (!question) return;
-
-  loader.style.display = "inline-block";
-  output.style.display = "block";
-  output.innerHTML = "Consultando asistente...";
-
-  try {
-    const response = await fetchWithTimeout("https://n8n-l07k.onrender.com/webhook/portfolio-ia", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        type: "chat",
-        question: question
-      })
-    });
-
-    const data = await response.json();
-    output.innerHTML = data.content.parts[0].text;
-
-  } catch (error) {
-    output.innerHTML = "Error conectando con el servidor.";
-  }
-
-  loader.style.display = "none";
-}
 </script>
 </body>
 </html>
