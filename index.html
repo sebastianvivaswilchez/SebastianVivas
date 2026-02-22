@@ -949,6 +949,49 @@ async function generateStrategy() {
   }
 }
 
+  // Función: Pregunta sobre trayectoria
+async function askAssistant() {
+  const question = document.getElementById('chat-input').value;
+  const output = document.getElementById('chat-output');
+  const loader = document.getElementById('chat-loader');
+
+  if (!question) return;
+
+  loader.style.display = "inline-block";
+  output.style.display = "block";
+  output.innerHTML = "Pensando...";
+
+  try {
+    const response = await fetchWithTimeout(
+      "https://n8n-l07k.onrender.com/webhook/portfolio-ia",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          type: "chat",
+          question: question
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error del servidor");
+    }
+
+    const data = await response.json();
+
+    output.innerHTML = data.response || "No se recibió respuesta válida.";
+
+  } catch (error) {
+    output.innerHTML = "Error conectando con el servidor.";
+    console.error(error);
+  } finally {
+    loader.style.display = "none";
+  }
+}
+
 </script>
 </body>
 </html>
