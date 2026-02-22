@@ -941,7 +941,7 @@ async function generateStrategy() {
     });
 
     const data = await response.json();
-    output.innerHTML = data.response;
+    output.innerHTML = data;
 
     console.log(data);
 output.innerHTML = JSON.stringify(data, null, 2);
@@ -978,7 +978,7 @@ async function askAssistant() {
     });
 
     const data = await response.json();
-    output.innerHTML = data.response;
+    output.innerHTML = data;
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
