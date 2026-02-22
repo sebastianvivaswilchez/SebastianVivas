@@ -941,7 +941,7 @@ async function generateStrategy() {
     });
 
     const data = await response.json();
-    output.innerHTML = data.response;
+    output.innerHTML = data;
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
