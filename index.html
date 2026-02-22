@@ -911,7 +911,7 @@ async function callGemini(prompt, systemPrompt = "") {
         await new Promise(r => setTimeout(r, delay));
         delay *= 2;
     }
-    return "Error: No se pudo conectar con el servicio de IA después de varios intentos.";
+    return "No se logró conectar con el servicio de IA después de varios intentos.";
 }
 
 // Función: Generador de Estrategia
