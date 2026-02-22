@@ -916,54 +916,72 @@ async function callGemini(prompt, systemPrompt = "") {
 
 // Función: Generador de Estrategia
 async function generateStrategy() {
-    const industry = document.getElementById('industry-input').value;
-    const goal = document.getElementById('goal-input').value;
-    const output = document.getElementById('strategy-output');
-    const loader = document.getElementById('strategy-loader');
+  const industry = document.getElementById('industry-input').value;
+  const goal = document.getElementById('goal-input').value;
+  const output = document.getElementById('strategy-output');
+  const loader = document.getElementById('strategy-loader');
 
-    if (!industry || !goal) return;
+  if (!industry || !goal) return;
 
-    loader.style.display = "inline-block";
-    output.style.display = "block";
-    output.innerHTML = "Analizando mercado y competencia...";
+  loader.style.display = "inline-block";
+  output.style.display = "block";
+  output.innerHTML = "Analizando mercado...";
 
-    const systemPrompt = `Eres el clon de IA de Sebastian Vivas, un experto Growth Marketer con 10 años de experiencia. 
-    Tu misión es dar una estrategia táctica de 3 pasos para un usuario. 
-    Usa un tono profesional, directo y basado en datos. Habla de automatización, optimización de funnels y escala. No uses formato markdown.`;
+  try {
+    const response = await fetch("https://n8n-l07k.onrender.com/webhook/portfolio-ia", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        type: "strategy",
+        industry: industry,
+        goal: goal
+      })
+    });
 
-    const prompt = `Industria: ${industry}. Objetivo: ${goal}. Dame un plan de 3 pasos accionables.`;
-    
-    const result = await callGemini(prompt, systemPrompt);
-    output.innerHTML = result;
-    loader.style.display = "none";
+    const data = await response.json();
+    output.innerHTML = data.response;
+
+  } catch (error) {
+    output.innerHTML = "Error conectando con el servidor.";
+  }
+
+  loader.style.display = "none";
 }
 
 // Función: Asistente Virtual
 async function askAssistant() {
-    const question = document.getElementById('chat-input').value;
-    const output = document.getElementById('chat-output');
-    const loader = document.getElementById('chat-loader');
+  const question = document.getElementById('chat-input').value;
+  const output = document.getElementById('chat-output');
+  const loader = document.getElementById('chat-loader');
 
-    if (!question) return;
+  if (!question) return;
 
-    loader.style.display = "inline-block";
-    output.style.display = "block";
-    output.innerHTML = "Consultando mi historial profesional...";
+  loader.style.display = "inline-block";
+  output.style.display = "block";
+  output.innerHTML = "Consultando asistente...";
 
-    const systemPrompt = `Eres el asistente virtual de Sebastian Vivas Wilches. 
-    Datos clave de Sebastian:
-    - 10 años de experiencia en Growth Marketing.
-    - MBA de la Universitat d'Alacant.
-    - Resultados: 5X ventas en Swat Squad, $800k revenue en 3.5 meses.
-    - Experiencia en Grydd (Marketing Lead), Scorp App (ASO #1), Swat Squad (PM & Growth).
-    - Habilidades: n8n, Automatización, APIs, IA, Data Interpretation.
-    - Idiomas: Español, Inglés, Italiano, Francés (conversacional), Turco (elemental).
-    - Países: España (Canarias), Estonia, EE.UU, México, Colombia, Turquía, Italia, Egipto, Canadá.
-    Responde preguntas sobre su carrera de forma amable y precisa. Si no sabes algo, invita a contactar a Sebastian directamente.`;
+  try {
+    const response = await fetch("https://n8n-l07k.onrender.com/webhook/portfolio-ia", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        type: "chat",
+        question: question
+      })
+    });
 
-    const result = await callGemini(question, systemPrompt);
-    output.innerHTML = `<strong>Asistente:</strong> ${result}`;
-    loader.style.display = "none";
+    const data = await response.json();
+    output.innerHTML = data.response;
+
+  } catch (error) {
+    output.innerHTML = "Error conectando con el servidor.";
+  }
+
+  loader.style.display = "none";
 }
 </script>
 </body>
