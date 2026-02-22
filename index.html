@@ -352,6 +352,20 @@ footer {
   gap: 50px;
   align-items: start;
 }
+  @media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .language-card {
+    padding: 20px;
+  }
+
+  .profile-text {
+    max-width: 100%;
+  }
+}
 
 .profile-text {
   color: var(--text-muted);
@@ -771,17 +785,28 @@ Transformo recursos existentes en sistemas de crecimiento sostenido.
 </section>
 
 <section id="reclutadores">
-  <h2>Para Reclutadores & Equipos de Talento</h2>
-  <p style="color:var(--text-muted);">
-    Obtén una estrategia de crecimiento accionable en 3 pasos basada en mi experiencia real.
+  <h2>Para Recruiters & Talent Teams</h2>
+  <p style="color:var(--text-muted); max-width:700px;">
+    Si buscas un perfil que combine estrategia, ejecución técnica y mentalidad de negocio,
+    aquí encontrarás resultados reales, no solo títulos.
   </p>
+  <ul style="color:var(--text-muted); line-height:1.8;">
+    <li>✔ Escalamiento comprobado 5X</li>
+    <li>✔ Automatización avanzada con IA y APIs</li>
+    <li>✔ Experiencia SaaS B2B y performance global</li>
+  </ul>
 </section>
 
 <section id="clientes">
   <h2>Para Empresas & Startups</h2>
-  <p style="color:var(--text-muted);">
-    Diseño sistemas de adquisición, optimización y automatización que convierten crecimiento en proceso repetible.
+  <p style="color:var(--text-muted); max-width:700px;">
+    No implemento campañas. Construyo sistemas de crecimiento.
   </p>
+  <ul style="color:var(--text-muted); line-height:1.8;">
+    <li>✔ Reducción de fricción en adquisición</li>
+    <li>✔ Optimización real de CAC y conversión</li>
+    <li>✔ Automatización con n8n + IA</li>
+  </ul>
 </section>
 
 <section>
@@ -874,9 +899,18 @@ Transformo recursos existentes en sistemas de crecimiento sostenido.
   <p style="color:var(--text-muted); margin-bottom:50px;">
     Estoy abierto a oportunidades estratégicas y proyectos de crecimiento.
   </p>
-  <a href="mailto:wilchezdigital@email.com" style="background:var(--primary); padding:14px 30px; border-radius:6px; color:white; text-decoration:none; font-weight:bold;">
-    Contactar
+  <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+  <a href="https://wa.me/34600000000?text=Hola%20Sebastian..."
+     target="_blank"
+     style="background:var(--primary); padding:14px 30px; border-radius:6px; color:white; text-decoration:none; font-weight:bold;">
+     Agendar conversación
   </a>
+
+  <a href="mailto:wilchezdigital@email.com"
+     style="background:#2a2a2a; padding:14px 30px; border-radius:6px; color:white; text-decoration:none; font-weight:bold;">
+     Enviar email
+  </a>
+</div>
 </section>
 
 <footer>
