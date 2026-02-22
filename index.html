@@ -939,7 +939,9 @@ async function generateStrategy() {
     const data = await response.json();
 
     // Asegúrate que tu webhook devuelva { response: "texto" }
-    output.innerHTML = data.response || "No se recibió respuesta válida.";
+    output.innerHTML =
+      data.content?.parts?.[0]?.text ||
+      "No se recibió respuesta válida.";
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
@@ -982,7 +984,9 @@ async function askAssistant() {
 
     const data = await response.json();
 
-    output.innerHTML = data.response || "No se recibió respuesta válida.";
+    output.innerHTML =
+      data.content?.parts?.[0]?.text ||
+      "No se recibió respuesta válida.";
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
