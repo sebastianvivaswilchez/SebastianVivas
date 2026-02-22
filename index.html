@@ -457,9 +457,9 @@ footer {
 }
 
 .ai-badge {
-  background: rgba(255, 122, 26, 0.1);
-  color: var(--primary);
-  border: 1px solid var(--primary);
+  background: transparent;
+  color: #888;
+  border: 1px solid #888;
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 0.75rem;
@@ -846,21 +846,21 @@ Transformo recursos existentes en sistemas de crecimiento sostenido.
       <input type="text" id="goal-input" placeholder="Objetivo (ej. Más ventas, Reducir CAC, Escalar a Latam...)">
     </div>
     <button onclick="generateStrategy()">
-      Obtén una estrategia ✨
+      Obtén una estrategia
       <div class="loader" id="strategy-loader"></div>
     </button>
     <div class="ai-output" id="strategy-output"></div>
   </div>
 
   <div class="ai-container" style="background: #0f0f0f;">
-    <span class="ai-badge">ASISTENTE VIRTUAL</span>
+    <span class="ai-badge">INTELIGENCIA ARTIFICIAL</span>
     <h3>Pregunta sobre mi Trayectoria</h3>
     <p style="color: var(--text-muted);">
       Haz cualquier pregunta sobre mi experiencia, mis certificaciones o cómo manejo la automatización.
     </p>
     <div style="margin-top: 15px;">
       <input type="text" id="chat-input" placeholder="¿Qué resultados lograste en Grydd?" style="width: 100%;">
-      <button onclick="askAssistant()" style="background: #333; border: 1px solid var(--primary);">
+      <button onclick="askAssistant()">
         Pregúnta mi experiecia
         <div class="loader" id="chat-loader"></div>
       </button>
