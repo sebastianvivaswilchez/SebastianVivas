@@ -943,8 +943,6 @@ async function generateStrategy() {
     const data = await response.json();
     output.innerHTML = data;
 
-    console.log(data);
-output.innerHTML = JSON.stringify(data, null, 2);
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
