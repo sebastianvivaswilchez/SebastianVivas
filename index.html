@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Use this tool to search for detailed professional experience, companies, roles, dates or projects not explicitly mentioned in the system message. Always use this tool when the user asks about specific companies or past roles.<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -1013,7 +1013,7 @@ async function askAssistant() {
     );
 
     if (!response.ok) {
-      throw new Error("Error del servidor");
+      throw new Error("Servidor ocupado, intenta nuevamente en unos segudos.");
     }
 
     const data = await response.json();
@@ -1023,7 +1023,7 @@ async function askAssistant() {
       "No se recibió respuesta válida.";
 
   } catch (error) {
-    output.innerHTML = "Error conectando con el servidor.";
+    output.innerHTML = "Servidor ocupado, intenta nuevamente en unos segudos.";
     console.error(error);
   } finally {
     loader.style.display = "none";
