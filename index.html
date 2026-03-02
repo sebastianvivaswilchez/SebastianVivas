@@ -919,7 +919,19 @@ Transformo recursos existentes en sistemas de crecimiento sostenido.
 
 <script>
 
-// Función base para fetch con timeout
+// ========= EXTRACTOR UNIVERSAL =========
+function extractText(data) {
+  return (
+    data?.output?.[0]?.content?.[0]?.text ||   // OpenAI v2
+    data?.content?.parts?.[0]?.text ||         // Gemini
+    data?.text ||                              // Simplify Output
+    data?.response ||                          // Custom JSON
+    data?.message ||                           // Alternativo
+    null
+  );
+}
+
+// ========= FETCH CON TIMEOUT =========
 async function fetchWithTimeout(url, options = {}, timeout = 15000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -937,7 +949,7 @@ async function fetchWithTimeout(url, options = {}, timeout = 15000) {
   }
 }
 
-// Función: Generador de Estrategia
+// ========= GENERATE STRATEGY =========
 async function generateStrategy() {
   const industry = document.getElementById('industry-input').value;
   const goal = document.getElementById('goal-input').value;
@@ -955,27 +967,21 @@ async function generateStrategy() {
       "https://n8n-l07k.onrender.com/webhook/portfolio-ia",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "strategy",
-          industry: industry,
-          goal: goal
+          industry,
+          goal
         })
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Error del servidor");
-    }
+    if (!response.ok) throw new Error("Error servidor");
 
     const data = await response.json();
+    const text = extractText(data);
 
-    // Asegúrate que tu webhook devuelva { response: "texto" }
-    output.innerHTML =
-      data.content?.parts?.[0]?.text ||
-      "No se recibió respuesta válida.";
+    output.innerHTML = text || "No se recibió respuesta válida.";
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
@@ -985,7 +991,7 @@ async function generateStrategy() {
   }
 }
 
-  // Función: Pregunta sobre trayectoria
+// ========= CHAT =========
 async function askAssistant() {
   const question = document.getElementById('chat-input').value;
   const output = document.getElementById('chat-output');
@@ -1002,25 +1008,20 @@ async function askAssistant() {
       "https://n8n-l07k.onrender.com/webhook/portfolio-ia",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "chat",
-          question: question
+          question
         })
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Error del servidor");
-    }
+    if (!response.ok) throw new Error("Error servidor");
 
     const data = await response.json();
+    const text = extractText(data);
 
-    output.innerHTML =
-      data.content?.parts?.[0]?.text ||
-      "No se recibió respuesta válida.";
+    output.innerHTML = text || "No se recibió respuesta válida.";
 
   } catch (error) {
     output.innerHTML = "Error conectando con el servidor.";
