@@ -886,7 +886,7 @@ Transformo recursos existentes en sistemas de crecimiento sostenido.
     <div style="margin-top: 15px;">
       <input type="text" id="chat-input" placeholder="¿Qué resultados lograste en Grydd?" style="width: 100%;">
       <button onclick="askAssistant()">
-        Pregúnta mi experiecia
+        Pregúnta mi experiencia
         <div class="loader" id="chat-loader"></div>
       </button>
     </div>
@@ -952,7 +952,7 @@ async function generateStrategy() {
 
   try {
     const response = await fetchWithTimeout(
-      "https://n8n-l07k.onrender.com/webhook/portfolio-ia",
+      "https://n8n-l07k.onrender.com/webhook-test/portfolio-ia",
       {
         method: "POST",
         headers: {
@@ -967,7 +967,7 @@ async function generateStrategy() {
     );
 
     if (!response.ok) {
-      throw new Error("Error del servidor");
+      throw new Error("Servidor ocupado, intenta nuevamente en unos segudos");
     }
 
     const data = await response.json();
