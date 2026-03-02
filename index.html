@@ -952,7 +952,7 @@ async function generateStrategy() {
 
   try {
     const response = await fetchWithTimeout(
-      "https://n8n-l07k.onrender.com/webhook-test/portfolio-ia",
+      "https://n8n-l07k.onrender.com/webhook/portfolio-ia",
       {
         method: "POST",
         headers: {
@@ -967,7 +967,7 @@ async function generateStrategy() {
     );
 
     if (!response.ok) {
-      throw new Error("Servidor ocupado, intenta nuevamente en unos segudos");
+      throw new Error("Servidor ocupado, intenta nuevamente en unos segudos.");
     }
 
     const data = await response.json();
@@ -978,7 +978,7 @@ async function generateStrategy() {
       "No se recibió respuesta válida.";
 
   } catch (error) {
-    output.innerHTML = "Error conectando con el servidor.";
+    output.innerHTML = "Servidor ocupado, intenta nuevamente en unos segudos.";
     console.error(error);
   } finally {
     loader.style.display = "none";
