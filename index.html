@@ -1101,7 +1101,7 @@ async function readResponseSafe(response) {
 }
 
 // ========= FETCH CON TIMEOUT =========
-async function fetchWithTimeout(url, options = {}, timeout = 15000) {
+async function fetchWithTimeout(url, options = {}, timeout = 120000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
@@ -1114,6 +1114,11 @@ async function fetchWithTimeout(url, options = {}, timeout = 15000) {
     return response;
   } catch (error) {
     clearTimeout(id);
+    if (error?.name === "AbortError") {
+      throw new Error(UI_LANG === "en"
+        ? "The server took too long to respond. Please try again; Render or the AI model may still be waking up."
+        : "El servidor tardó demasiado en responder. Inténtalo de nuevo; Render o el modelo de IA pueden estar despertando.");
+    }
     throw error;
   }
 }
@@ -1139,6 +1144,8 @@ async function generateStrategy() {
         type: "strategy",
         industry,
         goal,
+        question: `${industry} | ${goal}`,
+        questions: `${industry} | ${goal}`,
         language: UI_LANG,
         locale: navigator.language || UI_LANG
       })
@@ -1184,6 +1191,7 @@ async function askAssistant() {
       body: JSON.stringify({
         type: "chat",
         question,
+        questions: question,
         language: UI_LANG,
         locale: navigator.language || UI_LANG
       })
